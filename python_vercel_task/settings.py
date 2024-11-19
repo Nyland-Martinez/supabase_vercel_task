@@ -119,7 +119,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# Vercel handles static files with a particular directory
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # La carpeta donde se guardarán tus archivos estáticos
+]
+
+# Vercel needs this setting to find the static files during deployment
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Aquí se guardarán los archivos recolectados
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
