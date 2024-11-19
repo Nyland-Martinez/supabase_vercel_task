@@ -3,6 +3,7 @@
 *.env
 **/__pycache__/*
 settings.py
+.env
 
 # Ignorar el entorno virtual
 venv/
