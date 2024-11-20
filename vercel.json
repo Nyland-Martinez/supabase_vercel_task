@@ -4,11 +4,11 @@
             "src": "manage.py",
             "use": "@vercel/python",
             "config": {
-                "maxDuration": 10
+            "maxDuration": 10
             }
         }
     ],
-    "hooks": {
-        "build": "python manage.py collectstatic --noinput"
+    "env": {
+        "DJANGO_SETTINGS_MODULE": "python_vercel_task.settings"
     }
 }
