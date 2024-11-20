@@ -1,14 +1,18 @@
 {
     "builds": [
         {
-            "src": "manage.py",
+            "src": "python_vercel_task/wsgi.py",
             "use": "@vercel/python",
             "config": {
-            "maxDuration": 10
+                "maxLambdaSize": "15mb",
+                "runtime": "python 3.12"
             }
         }
     ],
-    "env": {
-        "DJANGO_SETTINGS_MODULE": "python_vercel_task.settings"
-    }
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "python_vercel_task/wsgi.py"
+        }
+    ]
 }

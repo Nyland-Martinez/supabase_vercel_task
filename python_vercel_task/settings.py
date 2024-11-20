@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = True
+ALLOWED_HOSTS = ["*", "vercel.app"]
 
 
 # Application definition
@@ -66,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'python_vercel_task.wsgi.app'
+WSGI_APPLICATION = 'python_vercel_task.wsgi.application'
 
 
 # Database
@@ -74,12 +77,16 @@ WSGI_APPLICATION = 'python_vercel_task.wsgi.app'
 
 DATABASES = {
     'default': {
-        'ENGINE': config('DB_ENGINE'),
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+        'ENGINE': "django.db.backends.postgresql",
+        'NAME': "postgres",
+        'USER': "postgres.okklcsihhutgppkurrdb",
+        'HOST': os.environ.get("SUPABASE_HOST"),
+        'PASSWORD': os.environ.get("SUPABASE_PASSWORD"),
+        'PORT': 6543,
+        'OPTIONS': {
+            "sslmode": "verify-full",
+            "sslrootcert": os.path.join(BASE_DIR, "prod-ca-2021.crt"),
+        },
     }
 }
 
@@ -118,14 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
-# Vercel handles static files with a particular directory
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # La carpeta donde se guardarán tus archivos estáticos
-]
-
-# Vercel needs this setting to find the static files during deployment
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Aquí se guardarán los archivos recolectados
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
