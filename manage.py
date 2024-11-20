@@ -3,6 +3,8 @@
 import os
 import sys
 
+from python_vercel_task.wsgi import application
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE',

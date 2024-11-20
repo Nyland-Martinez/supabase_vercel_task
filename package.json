@@ -1,7 +1,14 @@
 {
-    "name": "python-vercel-task",
-    "version": "1.0.0",
-    "scripts": {
-        "build": "python manage.py collectstatic --noinput"
-    }
+    "builds": [
+        {
+            "src": "manage.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "manage.py"
+        }
+    ]
 }
